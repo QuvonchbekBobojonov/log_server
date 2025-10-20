@@ -1,7 +1,6 @@
-from fastapi import FastAPI, Request, Depends, Query
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi import FastAPI, Request, Query
+from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from fastapi.staticfiles import StaticFiles
 from bson import ObjectId
 from datetime import datetime
 from typing import Optional
