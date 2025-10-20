@@ -11,7 +11,6 @@ from models import LogCreate
 app = FastAPI(title="FastAPI Log Server with Admin Panel")
 
 templates = Jinja2Templates(directory="templates")
-app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 @app.post("/logs")
