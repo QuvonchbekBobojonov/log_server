@@ -4,12 +4,22 @@ from fastapi.templating import Jinja2Templates
 from bson import ObjectId
 from datetime import datetime
 from typing import Optional
-from database import db
+from database import db, init_db, close_db
 from models import LogCreate
 
 app = FastAPI(title="FastAPI Log Server with Admin Panel")
 
 templates = Jinja2Templates(directory="templates")
+
+
+@app.on_event("startup")
+async def startup_event():
+    init_db()
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    close_db()
 
 
 @app.post("/logs")
@@ -36,9 +46,9 @@ async def get_logs(limit: int = 50):
 
 @app.get("/", response_class=HTMLResponse)
 async def admin_panel(
-    request: Request,
-    level: Optional[str] = Query(None),
-    service: Optional[str] = Query(None)
+        request: Request,
+        level: Optional[str] = Query(None),
+        service: Optional[str] = Query(None)
 ):
     """Admin panel with filters by log level and service name"""
     query = {}
