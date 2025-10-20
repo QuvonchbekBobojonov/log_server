@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log Dashboard</title>
+    <style>
+        body { font-family: Arial; background: #f7f7f7; margin: 0; padding: 0; }
+        h2 { background: #1e88e5; color: white; padding: 10px; }
+        table { width: 100%; border-collapse: collapse; background: white; }
+        th, td { padding: 8px; border-bottom: 1px solid #ccc; }
+        tr:hover { background: #f0f0f0; }
+        .INFO { color: #2e7d32; }
+        .WARNING { color: #f9a825; }
+        .ERROR { color: #c62828; font-weight: bold; }
+        .filter { padding: 10px; background: #fff; border-bottom: 1px solid #ccc; display: flex; align-items: center; gap: 15px; }
+        .filter a { text-decoration: none; margin-right: 10px; }
+        .active { font-weight: bold; text-decoration: underline; }
+        select, input { padding: 5px; }
+        form { margin: 0; }
+    </style>
+</head>
+<body>
+    <h2>📋 Log Dashboard</h2>
+    <div class="filter">
+        <form method="get" action="/">
+            <label>Level:</label>
+            <select name="level">
+                <option value="">All</option>
+                <option value="INFO" {{ 'selected' if selected_level=='INFO' else '' }}>INFO</option>
+                <option value="WARNING" {{ 'selected' if selected_level=='WARNING' else '' }}>WARNING</option>
+                <option value="ERROR" {{ 'selected' if selected_level=='ERROR' else '' }}>ERROR</option>
+            </select>
+
+            <label>Service:</label>
+            <select name="service">
+                <option value="">All</option>
+                {% for s in services %}
+                    <option value="{{ s }}" {{ 'selected' if selected_service==s else '' }}>{{ s }}</option>
+                {% endfor %}
+            </select>
+
+            <input type="submit" value="Filter">
+        </form>
+    </div>
+
+    <table>
+        <tr>
+            <th>Time</th>
+            <th>Service</th>
+            <th>Level</th>
+            <th>Message</th>
+        </tr>
+        {% for log in logs %}
+        <tr>
+            <td>{{ log.timestamp }}</td>
+            <td>{{ log.service }}</td>
+            <td class="{{ log.level }}">{{ log.level }}</td>
+            <td><a href="/log/{{ log._id }}">{{ log.message }}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

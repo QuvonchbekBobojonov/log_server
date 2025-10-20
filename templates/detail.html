@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log Detail</title>
+    <style>
+        body { font-family: Arial; background: #f9f9f9; margin: 0; padding: 20px; }
+        .card { background: white; padding: 20px; border-radius: 5px; box-shadow: 0 0 5px #ccc; }
+        pre { background: #eee; padding: 10px; border-radius: 5px; }
+        a { text-decoration: none; color: #1e88e5; }
+    </style>
+</head>
+<body>
+    <a href="/">← Back to logs</a>
+    <div class="card">
+        <h2>{{ log.service }} | <span style="color: gray;">{{ log.level }}</span></h2>
+        <p><b>Time:</b> {{ log.timestamp }}</p>
+        <p><b>Message:</b> {{ log.message }}</p>
+        {% if log.details %}
+            <h3>Details</h3>
+            <pre>{{ log.details | tojson(indent=4) }}</pre>
+        {% endif %}
+    </div>
+</body>
+</html>
